@@ -16,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'http://localhost:5173',
   'http://localhost:3000',
+  'http://localhost:5173',
+  'https://portfolio-virid-chi-81.vercel.app', 
 ];
 
 app.use(
