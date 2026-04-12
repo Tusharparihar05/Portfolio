@@ -3,8 +3,8 @@
 A full-stack personal portfolio built with the MERN Stack.
 
 ## 🔗 Live Links
-- **Frontend:** 
-- **Backend API:**
+- **Frontend:** https://portfolio-virid-chi-81.vercel.app
+- **Backend API:** https://portfolio-backend-5t2z.onrender.com
 
 ## 🛠 Tech Stack
 - **Frontend:** React.js, TypeScript, CSS Animations
