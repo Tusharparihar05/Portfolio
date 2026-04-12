@@ -12,23 +12,32 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS — allow your frontend origin
+// CORS — allow your frontend origins
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:5173',
-  'http://localhost:3000',
+  process.env.FRONTEND_URL,
   'http://localhost:5173',
-  'https://portfolio-virid-chi-81.vercel.app', 
+  'http://localhost:3000',
+  'https://portfolio-virid-chi-81.vercel.app',
+  'https://portfolio-9sstvgy0u-tusharparihar05s-projects.vercel.app',
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (Postman, curl)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
+      // allow requests with no origin (Postman, curl, mobile apps)
+      if (!origin) return callback(null, true);
+
+      // allow all *.vercel.app preview URLs
+      if (origin.endsWith('.vercel.app')) return callback(null, true);
+
+      // allow localhost for development
+      if (origin.startsWith('http://localhost')) return callback(null, true);
+
+      // allow specific origins from list
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+
+      // block everything else
+      callback(new Error('Not allowed by CORS'));
     },
     credentials: true,
   })
@@ -71,6 +80,6 @@ mongoose
     app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
   })
   .catch((err) => {
-    console.error('MongoDB connection failed:', err.message);
+    console.error(' MongoDB connection failed:', err.message);
     process.exit(1);
   });
