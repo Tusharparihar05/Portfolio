@@ -1,37 +1,42 @@
 const Contact = require('../models/Contact');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-// ── Helper: send notification email to yourself ──
+// ── Helper: send notification email via Resend ──
 async function sendNotificationEmail(data) {
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) return;
+  if (!process.env.RESEND_API_KEY) return;
 
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // use SSL
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
-  await transporter.sendMail({
-    from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER,
+  await resend.emails.send({
+    from: 'onboarding@resend.dev', // free tier sender
+    to: process.env.EMAIL_USER,    // your gmail
     subject: `📬 New Contact: ${data.subject}`,
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: auto;">
         <h2 style="color: #6366f1;">New message from your portfolio</h2>
         <table style="width:100%; border-collapse: collapse;">
-          <tr><td style="padding:8px; font-weight:bold;">Name</td><td style="padding:8px;">${data.name}</td></tr>
-          <tr style="background:#f5f5f5;"><td style="padding:8px; font-weight:bold;">Email</td><td style="padding:8px;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
-          <tr><td style="padding:8px; font-weight:bold;">Subject</td><td style="padding:8px;">${data.subject}</td></tr>
-          <tr style="background:#f5f5f5;"><td style="padding:8px; font-weight:bold; vertical-align:top;">Message</td><td style="padding:8px;">${data.message}</td></tr>
+          <tr>
+            <td style="padding:8px; font-weight:bold; width:100px;">Name</td>
+            <td style="padding:8px;">${data.name}</td>
+          </tr>
+          <tr style="background:#f5f5f5;">
+            <td style="padding:8px; font-weight:bold;">Email</td>
+            <td style="padding:8px;">
+              <a href="mailto:${data.email}">${data.email}</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px; font-weight:bold;">Subject</td>
+            <td style="padding:8px;">${data.subject}</td>
+          </tr>
+          <tr style="background:#f5f5f5;">
+            <td style="padding:8px; font-weight:bold; vertical-align:top;">Message</td>
+            <td style="padding:8px;">${data.message}</td>
+          </tr>
         </table>
-        <p style="color:#888; font-size:12px; margin-top:20px;">Sent at ${new Date().toLocaleString()}</p>
+        <p style="color:#888; font-size:12px; margin-top:20px;">
+          Sent at ${new Date().toLocaleString()}
+        </p>
       </div>
     `,
   });
@@ -52,7 +57,7 @@ exports.submitContact = async (req, res) => {
     // Save to MongoDB
     const contact = await Contact.create({ name, email, subject, message });
 
-    // Try to send notification email (non-blocking)
+    // Send email notification (non-blocking — won't fail the request)
     sendNotificationEmail({ name, email, subject, message }).catch((err) =>
       console.error('Email notification failed:', err.message)
     );
@@ -68,7 +73,10 @@ exports.submitContact = async (req, res) => {
       return res.status(400).json({ success: false, message: errors[0] });
     }
     console.error('Contact submit error:', err);
-    return res.status(500).json({ success: false, message: 'Something went wrong. Please try again.' });
+    return res.status(500).json({
+      success: false,
+      message: 'Something went wrong. Please try again.',
+    });
   }
 };
 
