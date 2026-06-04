@@ -161,6 +161,42 @@ function Experience() {
       fileType: 'image',
       filePath: '/March DCC.png',
     },
+    {
+      id: 'leetcode-dcc-apr',
+      emoji: '📅',
+      avatar: 'dcc',
+      title: 'Daily Coding Challenge — April 2026',
+      issuer: 'LeetCode',
+      date: 'Apr 2026',
+      badge: 'DCC April',
+      color: '#3b82f6',
+      fileType: 'image',
+      filePath: '/April DCC.png',
+    },
+    {
+      id: 'leetcode-dcc-may',
+      emoji: '📅',
+      avatar: 'dcc',
+      title: 'Daily Coding Challenge — May 2026',
+      issuer: 'LeetCode',
+      date: 'May 2026',
+      badge: 'DCC May',
+      color: '#f59e0b',
+      fileType: 'image',
+      filePath: '/May DCC.png',
+    },
+    {
+      id: 'leetcode-100',
+      emoji: '💯',
+      avatar: 'leetcode',
+      title: 'LeetCode 100 Days Badge 2026',
+      issuer: 'LeetCode',
+      date: '2026',
+      badge: '100+ Days Streak',
+      color: '#ef4444',
+      fileType: 'image',
+      filePath: '/100 days Batch.png',
+    },
   ];
 
   useEffect(() => {
@@ -240,24 +276,24 @@ function Experience() {
       case 'leetcode':
         return (
           <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" className="cert-avatar-svg">
-            <circle cx="40" cy="40" r="38" fill="#ffa11615" stroke="#ffa116" strokeWidth="2"/>
+            <circle cx="40" cy="40" r="38" fill={color + '15'} stroke={color} strokeWidth="2"/>
             {/* Flame */}
-            <path d="M40 20 C36 28 30 32 32 42 C34 50 40 54 40 54 C40 54 46 50 48 42 C50 32 44 28 40 20Z" fill="#ffa116" opacity="0.9"/>
+            <path d="M40 20 C36 28 30 32 32 42 C34 50 40 54 40 54 C40 54 46 50 48 42 C50 32 44 28 40 20Z" fill={color} opacity="0.9"/>
             <path d="M40 32 C38 36 36 38 37 43 C38 47 40 49 40 49 C40 49 42 47 43 43 C44 38 42 36 40 32Z" fill="#fff" opacity="0.5"/>
-            <text x="40" y="67" textAnchor="middle" fontSize="9" fill="#ffa116" fontWeight="700" fontFamily="monospace">LEETCODE</text>
-            <text x="40" y="76" textAnchor="middle" fontSize="7.5" fill="#ffa116aa" fontFamily="monospace">50 DAYS 🔥</text>
+            <text x="40" y="67" textAnchor="middle" fontSize="9" fill={color} fontWeight="700" fontFamily="monospace">LEETCODE</text>
+            <text x="40" y="76" textAnchor="middle" fontSize="7.5" fill={color + 'aa'} fontFamily="monospace">STREAK 🔥</text>
           </svg>
         );
       case 'dcc':
         return (
           <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" className="cert-avatar-svg">
-            <circle cx="40" cy="40" r="38" fill="#22c55e15" stroke="#22c55e" strokeWidth="2"/>
+            <circle cx="40" cy="40" r="38" fill={color + '15'} stroke={color} strokeWidth="2"/>
             {/* Hexagon badge */}
-            <polygon points="40,20 55,29 55,47 40,56 25,47 25,29" fill="#22c55e" opacity="0.8"/>
-            <polygon points="40,25 51,31 51,45 40,51 29,45 29,31" fill="#166534" opacity="0.6"/>
+            <polygon points="40,20 55,29 55,47 40,56 25,47 25,29" fill={color} opacity="0.8"/>
+            <polygon points="40,25 51,31 51,45 40,51 29,45 29,31" fill={color} opacity="0.35"/>
             <text x="40" y="38" textAnchor="middle" fontSize="8" fill="white" fontWeight="700" fontFamily="monospace">DCC</text>
-            <text x="40" y="48" textAnchor="middle" fontSize="7" fill="#bbf7d0" fontFamily="monospace">MAR 2026</text>
-            <text x="40" y="68" textAnchor="middle" fontSize="8" fill="#22c55e" fontWeight="700" fontFamily="monospace">LEETCODE</text>
+            <text x="40" y="48" textAnchor="middle" fontSize="7" fill="white" opacity="0.85" fontFamily="monospace">2026</text>
+            <text x="40" y="68" textAnchor="middle" fontSize="8" fill={color} fontWeight="700" fontFamily="monospace">LEETCODE</text>
           </svg>
         );
       default:

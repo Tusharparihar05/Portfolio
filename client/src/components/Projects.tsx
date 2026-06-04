@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ExternalLink, Github, Play, X } from 'lucide-react';
+import { ExternalLink, Github, Play, X, Zap, Shield, Brain, Database } from 'lucide-react';
 import '../styles/Projects.css';
 
 interface Project {
@@ -7,10 +7,12 @@ interface Project {
   description: string;
   techStack: string[];
   githubLink: string;
-  liveLink?: string;    // deployed URL → opens new tab
-  videoUrl?: string;    // local video path like '/assets/edulocker-demo.mp4'
+  liveLink?: string;
+  videoUrl?: string;
   category: string;
   image: string;
+  status?: 'deployed' | 'academic';
+  highlights?: string[];
 }
 
 function Projects() {
@@ -21,50 +23,68 @@ function Projects() {
 
   const projects: Project[] = [
     {
-      title: 'Edulocker',
+      title: 'MediChain — Blockchain Healthcare',
       description:
-        'A decentralized application (DApp) for tamper-proof academic document storage and verification using Ethereum, IPFS, Solidity, and React. Ensures document authenticity and eliminates fraud.',
-      techStack: ['React', 'Ethereum', 'Solidity', 'IPFS'],
-      githubLink: 'https://github.com/Tusharparihar05/edulocker',
-      videoUrl: '/assets/edulocker-demo.mp4',   // ← put edulocker-demo.mp4 in public/assets/
-      category: 'Blockchain',
-      image: '/assets/edulocker.svg',
-       liveLink: 'https://tusharedulocker.vercel.app/'
-    },
-    {
-      title: 'Land Registry Web3',
-      description:
-        "A decentralized land registry system built on Polygon blockchain, inspired by IBM's Ghana blockchain land registry project. Eliminates paper-based title deeds, fraud, and slow verification by recording land ownership permanently on-chain with IPFS and IBM Watson integration.",
-      techStack: ['React', 'Polygon', 'Solidity', 'Web3.js', 'IPFS'],
-      githubLink: 'https://github.com/Tusharparihar05/land-registry-web3',
-       // ← put land-registry-demo.mp4 in public/assets/
-      category: 'Blockchain',
-      image: '/assets/land-registry.svg',
-    },
-    {
-      title: 'Hospital Blockchain',
-      description:
-        'Blockchain-based hospital management system with secure patient records and appointment tokens. Ensures data privacy and seamless healthcare management using smart contracts.',
-      techStack: ['React', 'Ethereum', 'Solidity', 'Node.js'],
+        'A full-stack decentralized healthcare platform combining Web2 infrastructure with Ethereum blockchain. Features tamper-proof medical records with keccak256 hash anchoring, ERC-721 appointment NFTs, AI-powered report analysis using Groq LLaMA 3.3 70B in 20+ languages, real-time patient queue management, Razorpay/UPI payments, emergency SOS with GPS, and doctor license verification via NMC/ABDM HPR sandbox.',
+      techStack: ['React', 'Ethereum', 'Solidity', 'Node.js', 'MongoDB', 'Hardhat', 'IPFS', 'Groq AI', 'Razorpay'],
       githubLink: 'https://github.com/Tusharparihar05/hospital-blockchain-project',
-       // ← put hospital-demo.mp4 in public/assets/
+      liveLink: 'https://hospital-blockchain-project.vercel.app/',
+      videoUrl: '/assets/Hospital_Blockchain_Project.mp4',
       category: 'Blockchain',
       image: '/assets/hospital.svg',
+      status: 'deployed',
+      highlights: ['4 Smart Contracts', 'ERC-721 NFTs', 'AI Report Analysis', 'Live on Vercel'],
+    },
+    {
+      title: 'VidyaBot — AI Learning Portal',
+      description:
+        'An AI-powered concept learning portal for students from Class 9 to BTech CSE. Ask any question and instantly receive three parallel outputs: Markdown explanation with KaTeX math and Chart.js visualizations, custom HTML5 Canvas whiteboard animations with zone-based no-overlap layout, and HeyGen AI avatar videos with lip-synced voice. Built with NVIDIA NIM (LLaMA 2 70B), three-layer Redis → MongoDB caching, per-user rate limiting, and Manim video rendering via a Python/FastAPI microservice.',
+      techStack: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Redis', 'NVIDIA NIM', 'Docker', 'FastAPI', 'Manim'],
+      githubLink: 'https://github.com/Tusharparihar05/VidyaBot-AI-Powered-Concept-Learning-Portal',
+      videoUrl: '/assets/vidhya_demo.mp4',
+      category: 'AI & Full Stack',
+      image: '/assets/vidhya_bot.png',
+      status: 'academic',
+      highlights: ['3 Output Formats', 'NVIDIA LLM', 'Canvas Animations', 'Docker Compose'],
+    },
+    {
+      title: 'Blockchain Land Registry',
+      description:
+        'A decentralized land registry system built on Polygon blockchain, inspired by IBM\'s Ghana blockchain land registry project. Features 6 core modules: land registration with GPS + IPFS document hashing, smart contract escrow for instant atomic ownership transfers, immutable chain of title history, instant verification for banks and lawyers, on-chain mortgage/lien recording with auto-release, and on-chain dispute resolution. Integrates IBM Watson NLU for automatic data extraction from title deed PDFs.',
+      techStack: ['React', 'Polygon', 'Solidity', 'Web3.js', 'IPFS', 'Hardhat', 'IBM Watson', 'OpenZeppelin'],
+      githubLink: 'https://github.com/Tusharparihar05/land-registry-web3',
+      category: 'Blockchain',
+      image: '/assets/land-registry.svg',
+      highlights: ['6 Core Modules', 'Polygon Blockchain', 'IBM Watson NLU', 'Smart Contract Escrow'],
+    },
+    {
+      title: 'Edulocker',
+      description:
+        'A decentralized application (DApp) for tamper-proof academic document storage and verification using Ethereum, IPFS, Solidity, and React. Ensures document authenticity and eliminates fraud through on-chain hash anchoring and decentralized file storage.',
+      techStack: ['React', 'Ethereum', 'Solidity', 'IPFS'],
+      githubLink: 'https://github.com/Tusharparihar05/edulocker',
+      videoUrl: '/assets/edulocker-demo.mp4',
+      category: 'Blockchain',
+      image: '/assets/edulocker.svg',
+      liveLink: 'https://tusharedulocker.vercel.app/',
+      status: 'deployed',
+      highlights: ['On-chain Hashing', 'IPFS Storage', 'Deployed on Vercel'],
     },
     {
       title: 'LMS System',
       description:
-        'A role-based Learning Management System with an Academic Performance Evaluator. Manages students, courses, quizzes, and study materials. Offers admin, faculty, and student dashboards with automated grading and performance analytics.',
+        'A role-based Learning Management System with an Academic Performance Evaluator. Manages students, courses, quizzes, and study materials. Offers admin, faculty, and student dashboards with automated grading, performance analytics, and comprehensive course management.',
       techStack: ['React', 'Node.js', 'MongoDB', 'Express', 'TypeScript'],
       githubLink: 'https://github.com/sarthakpdt/LMS-System-Minor-Project',
-        videoUrl: '/assets/lms.mp4',
+      videoUrl: '/assets/lms.mp4',
       category: 'Full Stack',
       image: '/assets/lms.svg',
+      status: 'academic',
+      highlights: ['Role-Based Access', 'Auto Grading', 'Performance Analytics'],
     },
-   
   ];
 
-  const categories = ['All', 'Blockchain', 'Full Stack'];
+  const categories = ['All', 'Blockchain', 'Full Stack', 'AI & Full Stack'];
 
   const filteredProjects =
     activeFilter === 'All'
@@ -101,13 +121,24 @@ function Projects() {
       .join('')
       .toUpperCase();
 
+  const getHighlightIcon = (highlight: string) => {
+    const lower = highlight.toLowerCase();
+    if (lower.includes('smart contract') || lower.includes('blockchain') || lower.includes('polygon'))
+      return <Shield size={12} />;
+    if (lower.includes('ai') || lower.includes('llm') || lower.includes('nvidia') || lower.includes('canvas'))
+      return <Brain size={12} />;
+    if (lower.includes('docker') || lower.includes('redis') || lower.includes('mongodb') || lower.includes('ipfs'))
+      return <Database size={12} />;
+    return <Zap size={12} />;
+  };
+
   return (
     <>
       <div className={`projects ${isVisible ? 'visible' : ''}`} ref={projectsRef}>
         <div className="projects-container">
           <h2 className="section-title">Featured Projects</h2>
           <p className="projects-subtitle">
-            Building innovative solutions with cutting-edge technologies
+            Engineering innovative solutions with blockchain, AI, and full-stack technologies — each project built to solve real-world problems
           </p>
 
           <div className="project-filter">
@@ -127,7 +158,7 @@ function Projects() {
               <div
                 key={project.title}
                 className="project-card"
-                style={{ animationDelay: `${index * 0.08}s` }}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="project-card-inner">
                   <div
@@ -144,6 +175,11 @@ function Projects() {
                         img.parentElement?.classList.add('no-image');
                       }}
                     />
+                    {project.status && (
+                      <span className={`project-status-badge ${project.status}`}>
+                        {project.status === 'deployed' ? '● Live' : '◆ Academic'}
+                      </span>
+                    )}
                   </div>
 
                   <div className="project-header">
@@ -152,6 +188,18 @@ function Projects() {
                   </div>
 
                   <p className="project-description">{project.description}</p>
+
+                  {/* Highlights */}
+                  {project.highlights && project.highlights.length > 0 && (
+                    <div className="project-highlights">
+                      {project.highlights.map((highlight) => (
+                        <span key={highlight} className="project-highlight">
+                          {getHighlightIcon(highlight)}
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   <div className="project-tech">
                     {project.techStack.map((tech) => (
@@ -169,8 +217,8 @@ function Projects() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Github size={18} />
-                      <span>View Code</span>
+                      <Github size={16} />
+                      <span>Code</span>
                     </a>
 
                     {/* Video demo — plays local mp4 in modal */}
@@ -179,8 +227,8 @@ function Projects() {
                         className="project-link project-link-btn"
                         onClick={() => setVideoModal(project.videoUrl!)}
                       >
-                        <Play size={18} />
-                        <span>Watch Demo</span>
+                        <Play size={16} />
+                        <span>Demo</span>
                       </button>
                     )}
 
@@ -188,12 +236,12 @@ function Projects() {
                     {project.liveLink && (
                       <a
                         href={project.liveLink}
-                        className="project-link"
+                        className="project-link live-link"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <ExternalLink size={18} />
-                        <span>Live Demo</span>
+                        <ExternalLink size={16} />
+                        <span>Live</span>
                       </a>
                     )}
                   </div>
