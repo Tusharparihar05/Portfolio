@@ -51,6 +51,7 @@
   transform: translateY(0);
 }
 
+/* Background track (dim line) */
 .timeline::before {
   content: '';
   position: absolute;
@@ -58,9 +59,25 @@
   transform: translateX(-50%);
   width: 3px;
   height: 100%;
+  background: var(--accent-primary)18;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+/* Progress fill (grows as you scroll) */
+.timeline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 3px;
+  height: var(--timeline-progress, 0%);
   background: var(--accent-gradient);
   border-radius: 2px;
-  z-index:  1;
+  z-index: 2;
+  transition: height 0.3s ease-out;
+  box-shadow: 0 0 12px var(--accent-primary)44;
 }
 
 .timeline-item {
@@ -70,47 +87,53 @@
   margin-bottom: 3rem;
   position: relative;
   opacity: 0;
-  animation: slideInLeft 0.6s ease forwards;
+  transform: translateX(-40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .timeline-item:nth-child(even) {
   justify-content: flex-start;
   padding-right: 0;
   padding-left: calc(50% + 44px);
-  animation: slideInRight 0.6s ease forwards;
+  transform: translateX(40px);
 }
 
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(30px); }
-  to   { opacity: 1; transform: translateX(0); }
+/* Revealed state — triggered by IntersectionObserver */
+.timeline-item.revealed {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .timeline-icon {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) scale(0.7);
   width: 54px;
   height: 54px;
-  background: var(--accent-gradient);
+  background: var(--bg-card);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  border: 3px solid var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 3px solid var(--accent-primary)33;
   z-index: 10;
-  box-shadow: 0 0 0 0 var(--accent-primary);
-  animation: pulse 2.5s infinite;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Icon lights up when its item is revealed */
+.timeline-item.revealed .timeline-icon {
+  background: var(--accent-gradient);
+  color: white;
+  border-color: var(--bg-secondary);
+  transform: translateX(-50%) scale(1);
+  box-shadow: 0 0 20px var(--accent-primary)44;
+  animation: pulse 2.5s infinite 0.5s;
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--accent-primary); }
-  50%       { box-shadow: 0 0 0 12px transparent; }
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-primary)44; }
+  50%      { box-shadow: 0 0 0 12px transparent; }
 }
 
 .timeline-content {
@@ -500,18 +523,31 @@
 
 /* ─── Responsive ─────────────────────────── */
 @media (max-width: 968px) {
-  .timeline::before { left: 28px; }
+  .timeline::before,
+  .timeline::after {
+    left: 28px;
+    transform: none;
+  }
 
   .timeline-item,
   .timeline-item:nth-child(even) {
     justify-content: flex-start;
     padding-left: 76px;
     padding-right: 0;
+    transform: translateX(40px);
+  }
+
+  .timeline-item.revealed {
+    transform: translateX(0);
   }
 
   .timeline-icon {
     left: 28px;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scale(0.7);
+  }
+
+  .timeline-item.revealed .timeline-icon {
+    transform: translateX(-50%) scale(1);
   }
 
   .timeline-content::before,

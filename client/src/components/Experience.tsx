@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { GraduationCap, Briefcase, Award, X, ExternalLink, ChevronRight } from 'lucide-react';
 import '../styles/Experience.css';
 
@@ -31,6 +31,8 @@ function Experience() {
   const [modalOpen, setModalOpen] = useState(false);
   const [activeCert, setActiveCert] = useState<CertificationCard | null>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const timelineItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const timeline: TimelineItem[] = [
     {
@@ -199,6 +201,7 @@ function Experience() {
     },
   ];
 
+  // Section visibility observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
@@ -206,6 +209,50 @@ function Experience() {
     );
     if (experienceRef.current) observer.observe(experienceRef.current);
     return () => { if (experienceRef.current) observer.unobserve(experienceRef.current); };
+  }, []);
+
+  // Progressive timeline scroll tracking
+  useEffect(() => {
+    const tl = timelineRef.current;
+    if (!tl) return;
+
+    const updateProgress = () => {
+      const rect = tl.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      // How far the user has scrolled through the timeline
+      const scrolled = viewportHeight - rect.top;
+      const total = rect.height;
+      const progress = Math.min(Math.max(scrolled / total, 0), 1) * 100;
+      tl.style.setProperty('--timeline-progress', `${progress}%`);
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress(); // initial
+    return () => {
+      window.removeEventListener('scroll', updateProgress);
+      window.removeEventListener('resize', updateProgress);
+    };
+  }, []);
+
+  // Per-item reveal observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -60px 0px' }
+    );
+
+    timelineItemsRef.current.forEach((item) => {
+      if (item) observer.observe(item);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   // Lock body scroll when modal open
@@ -312,12 +359,13 @@ function Experience() {
         <h2 className="section-title">Education & Experience</h2>
         <p className="experience-subtitle">My journey so far</p>
 
-        <div className="timeline">
+        <div className="timeline" ref={timelineRef}>
           {timeline.map((item, index) => (
             <div
               key={index}
+              ref={(el) => { timelineItemsRef.current[index] = el; }}
               className={`timeline-item ${item.type}`}
-              style={{ animationDelay: `${index * 0.2}s` }}
+              style={{ transitionDelay: `${index * 0.1}s` }}
             >
               <div className="timeline-icon">{getIcon(item.icon)}</div>
               <div className="timeline-content">
