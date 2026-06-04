@@ -86,6 +86,7 @@
   padding-right: calc(50% + 44px);
   margin-bottom: 3rem;
   position: relative;
+  z-index: 5;
   opacity: 0;
   transform: translateX(-40px);
   transition: opacity 0.6s ease, transform 0.6s ease;
