@@ -9,6 +9,7 @@ interface Project {
   githubLink: string;
   liveLink?: string;
   videoUrl?: string;
+  demoLink?: string;    // external demo link (e.g. LinkedIn post) — opens new tab
   category: string;
   image: string;
   status?: 'deployed' | 'academic';
@@ -29,7 +30,7 @@ function Projects() {
       techStack: ['React', 'Ethereum', 'Solidity', 'Node.js', 'MongoDB', 'Hardhat', 'IPFS', 'Groq AI', 'Razorpay'],
       githubLink: 'https://github.com/Tusharparihar05/hospital-blockchain-project',
       liveLink: 'https://hospital-blockchain-project.vercel.app/',
-      videoUrl: '/assets/Hospital_Blockchain_Project.mp4',
+      demoLink: 'https://www.linkedin.com/feed/update/urn:li:activity:7466854006531846144/',
       category: 'Blockchain',
       image: '/assets/hospital.svg',
       status: 'deployed',
@@ -41,7 +42,7 @@ function Projects() {
         'An AI-powered concept learning portal for students from Class 9 to BTech CSE. Ask any question and instantly receive three parallel outputs: Markdown explanation with KaTeX math and Chart.js visualizations, custom HTML5 Canvas whiteboard animations with zone-based no-overlap layout, and HeyGen AI avatar videos with lip-synced voice. Built with NVIDIA NIM (LLaMA 2 70B), three-layer Redis → MongoDB caching, per-user rate limiting, and Manim video rendering via a Python/FastAPI microservice.',
       techStack: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Redis', 'NVIDIA NIM', 'Docker', 'FastAPI', 'Manim'],
       githubLink: 'https://github.com/Tusharparihar05/VidyaBot-AI-Powered-Concept-Learning-Portal',
-      videoUrl: '/assets/vidhya_demo.mp4',
+      demoLink: 'https://www.linkedin.com/feed/update/urn:li:activity:7466376431300706304/',
       category: 'AI & Full Stack',
       image: '/assets/vidhya_bot.png',
       status: 'academic',
@@ -230,6 +231,19 @@ function Projects() {
                         <Play size={16} />
                         <span>Demo</span>
                       </button>
+                    )}
+
+                    {/* External demo link — opens in new tab (e.g. LinkedIn post) */}
+                    {project.demoLink && (
+                      <a
+                        href={project.demoLink}
+                        className="project-link project-link-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Play size={16} />
+                        <span>Demo</span>
+                      </a>
                     )}
 
                     {/* Live deployed link — opens new tab */}
