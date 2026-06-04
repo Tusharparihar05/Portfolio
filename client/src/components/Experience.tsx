@@ -53,7 +53,7 @@ function Experience() {
       title: 'Teaching Assistant',
       organization: 'JK Lakshmipat University',
       location: 'Jaipur, Rajasthan',
-      date: '01/26 - Present',
+      date: '01/26 - 05/26',
       description: [
         'Provide support in design and analysis of algorithms course',
         'Evaluate student performance and provide constructive feedback',
