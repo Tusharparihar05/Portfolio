@@ -51,12 +51,12 @@ function Projects() {
     {
       title: 'Blockchain Land Registry',
       description:
-        'A decentralized land registry system built on Polygon blockchain, inspired by IBM\'s Ghana blockchain land registry project. Features 6 core modules: land registration with GPS + IPFS document hashing, smart contract escrow for instant atomic ownership transfers, immutable chain of title history, instant verification for banks and lawyers, on-chain mortgage/lien recording with auto-release, and on-chain dispute resolution. Integrates IBM Watson NLU for automatic data extraction from title deed PDFs.',
-      techStack: ['React', 'Polygon', 'Solidity', 'Web3.js', 'IPFS', 'Hardhat', 'IBM Watson', 'OpenZeppelin'],
+        'A decentralized land registry system built on Polygon blockchain. Features core modules: land registration with GPS + IPFS document hashing, smart contract escrow for instant atomic ownership transfers, immutable chain of title history, and on-chain dispute resolution. Integrates OpenStreetMap for location fetching and features a Marketplace with search functionality to find and list nearby lands.',
+      techStack: ['React', 'Polygon', 'Solidity', 'Web3.js', 'IPFS', 'Hardhat', 'OpenStreetMap', 'OpenZeppelin'],
       githubLink: 'https://github.com/Tusharparihar05/land-registry-web3',
       category: 'Blockchain',
       image: '/assets/land-registry.svg',
-      highlights: ['6 Core Modules', 'Polygon Blockchain', 'IBM Watson NLU', 'Smart Contract Escrow'],
+      highlights: ['Marketplace & Search', 'Polygon Blockchain', 'OpenStreetMap', 'Smart Contract Escrow'],
     },
     {
       title: 'Edulocker',

@@ -151,7 +151,7 @@ portfolio/
     </tr>
     <tr>
       <td><strong>🏠 Blockchain Land Registry</strong><br/><em>Decentralized Land Registration System</em></td>
-      <td>React · Polygon · Solidity · Web3.js · IPFS · IBM Watson</td>
+      <td>React · Polygon · Solidity · Web3.js · IPFS · OpenStreetMap</td>
       <td>—</td>
     </tr>
     <tr>

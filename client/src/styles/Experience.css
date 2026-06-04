@@ -142,9 +142,34 @@
   padding: 1.75rem;
   border-radius: 16px;
   max-width: 440px;
-  border: 1.5px solid transparent;
-  transition: all 0.35s ease;
+  border: 1.5px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top gradient bar for premium feel */
+.timeline-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-gradient);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.timeline-content:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-primary)44;
+  box-shadow: 0 16px 40px var(--accent-primary)18, 0 4px 20px var(--shadow);
+}
+
+.timeline-content:hover::after {
+  opacity: 1;
 }
 
 /* pointer arrow */
